@@ -86,7 +86,7 @@ typedef int (*TipoImprimirCancelamentoSAT)(
 
 /* PONTEIROS DAS FUNÇÕES */
 
-static TipoAbrirConexao abrirConexao;
+static TipoAbrirConexao fnAbrirConexao;
 static TipoFecharConexao fecharConexao;
 static TipoImprimirTexto imprimirTexto;
 static TipoCortarPapel cortarPapel;
@@ -136,7 +136,7 @@ static int carregarBiblioteca(void) {
 
     int todasFuncoesCarregadas = 1;
 
-    todasFuncoesCarregadas &= buscarFuncao(&abrirConexao, "AbreConexaoImpressora");
+    todasFuncoesCarregadas &= buscarFuncao(&fnAbrirConexao, "AbreConexaoImpressora");
     todasFuncoesCarregadas &= buscarFuncao(&fecharConexao, "FechaConexaoImpressora");
     todasFuncoesCarregadas &= buscarFuncao(&imprimirTexto, "ImpressaoTexto");
     todasFuncoesCarregadas &= buscarFuncao(&cortarPapel, "Corte");
@@ -156,7 +156,13 @@ static int carregarBiblioteca(void) {
     todasFuncoesCarregadas &= buscarFuncao(&imprimirXMLSAT, "ImprimeXMLSAT");
     todasFuncoesCarregadas &= buscarFuncao(&imprimirCancelamentoSAT, "ImprimeXMLCancelamentoSAT");
 
-    return todasFuncoesCarregadas;
+    if (!todasFuncoesCarregadas) {
+    FreeLibrary(biblioteca);
+    biblioteca = NULL;
+    return 0;
+}
+
+return 1;
 }
 
 /* VARIÁVEIS DO PROGRAMA */
@@ -188,4 +194,140 @@ static void capturarEntrada(
     }
 
     textoDigitado[strcspn(textoDigitado, "\r\n")] = '\0';
+}
+
+/* SISTEMA DE LOGIN 
+    Usuario: admin
+    Senha: 1234
+*/
+static int fazerLogin(void) {
+
+    char usuario[50];
+    char senha[50];
+    int tentativas = 0;
+
+    while (tentativas < 3) {
+
+        printf("\n===== SISTEMA DE LOGIN =====\n");
+
+        capturarEntrada("Usuario: ", usuario, 50);
+        capturarEntrada("Senha: ", senha, 50);
+
+        if (strcmp(usuario, "admin") == 0 &&
+            strcmp(senha, "1234") == 0) {
+
+            printf("\nLogin realizado com sucesso!\n");
+            return 1;
+
+        } else {
+
+            tentativas++;
+
+            printf("\nUsuario ou senha incorretos!\n");
+            printf("Tentativas restantes: %d\n", 3 - tentativas);
+        }
+    }
+
+    printf("\nAcesso bloqueado!\n");
+    return 0;
+}
+
+/* MENU PRINCIPAL */
+static void exibirMenu(void) {
+
+    printf("\n====================================\n");
+    printf("       IMPRESSORA ELGIN I9\n");
+    printf("====================================\n");
+    printf("1 - Configurar conexao\n");
+    printf("2 - Abrir conexao\n");
+    printf("3 - Fechar conexao\n");
+    printf("4 - Imprimir texto\n");
+    printf("5 - Imprimir QR Code\n");
+    printf("6 - Imprimir codigo de barras\n");
+    printf("7 - Imprimir XML SAT\n");
+    printf("8 - Imprimir cancelamento SAT\n");
+    printf("9 - Abrir gaveta Elgin\n");
+    printf("10 - Abrir gaveta\n");
+    printf("11 - Emitir sinal sonoro\n");
+    printf("12 - Cortar papel\n");
+    printf("0 - Sair do programa\n");
+    printf("====================================\n");
+}
+
+/* CONFIGURACAO DA CONEXAO */
+static void configurarConexao(void) {
+
+    char entrada[50];
+
+    printf("\n===== CONFIGURAR CONEXAO =====\n");
+
+    /* DEFINE O TIPO DE CONEXAO */
+    capturarEntrada("Tipo de conexao: ", entrada, 50);
+    tipoConexao = atoi(entrada);
+
+    /* DEFINE O MODELO DA IMPRESSORA */
+    capturarEntrada("Modelo da impressora: ", modeloImpressora, 50);
+
+    /* DEFINE A PORTA DA IMPRESSORA */
+    capturarEntrada("Porta de conexao: ", portaConexao, 50);
+
+    /* DEFINE O PARAMETRO DA CONEXAO */
+    capturarEntrada("Parametro de configuracao: ", entrada, 50);
+    configuracao = atoi(entrada);
+
+    printf("\nConfiguracao salva!\n");
+
+    printf("Tipo de conexao: %d\n", tipoConexao);
+    printf("Modelo: %s\n", modeloImpressora);
+    printf("Porta: %s\n", portaConexao);
+    printf("Parametro: %d\n", configuracao);
+}
+
+
+/*FUNÇÃO MAIN PARA PODER RODAR O CÓDIGO*/
+
+int main(void) {
+
+    char opcao[10];
+
+    /* VERIFICA O LOGIN */
+    if (fazerLogin() == 0) {
+        return 1;
+    }
+
+    /* CARREGA A BIBLIOTECA DA IMPRESSORA */
+    if (carregarBiblioteca() == 0) {
+        return 1;
+    }
+
+    printf("DLL carregada com sucesso!\n");
+
+    /* LOOP MENU PRINCIPAL */
+    while (1) {
+
+        exibirMenu();
+
+        capturarEntrada("Escolha uma opcao: ", opcao, 10);
+
+        /* ENCERRA O PROGRAMA */
+        if (strcmp(opcao, "0") == 0) {
+
+            printf("\nEncerrando programa...\n");
+            break;
+
+        /* CONFIGURA A CONEXAO DA IMPRESSORA */
+        } else if (strcmp(opcao, "1") == 0) {
+
+            configurarConexao();
+
+        } else {
+
+            printf("\nOpcao ainda nao implementada!\n");
+        }
+    }
+
+    /* LIBERA A DLL ANTES DE ENCERRAR O PROGRAMA */
+    FreeLibrary(biblioteca);
+
+    return 0;
 }
