@@ -376,11 +376,7 @@ void emitirSinalSonoro(void) {
     }
 }
 
-/* SISTEMA DE LOGIN 
-    usuario: admin
-    senha: 1234
-
-*/
+/* SISTEMA DE LOGIN */
 static int fazerLogin(void) {
     char usuario[50];
     char senha[50];
