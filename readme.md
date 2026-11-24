@@ -1,12 +1,12 @@
-# Sistema de Controle de Impressora Elgin em C
+# Controle de Impressora Térmica Elgin em C
 
 ## Sobre o projeto
 
-Este projeto foi desenvolvido como trabalho acadêmico do curso de Ciência da Computação do UNASP, com o objetivo de criar um sistema de configuração e controle de uma impressora térmica Elgin i9 utilizando a linguagem C.
+Projeto acadêmico desenvolvido para o curso de Ciência da Computação do UNASP, com o objetivo de controlar uma impressora térmica Elgin utilizando a linguagem C e a biblioteca `E1_Impressora01.dll`.
 
-O sistema utiliza a biblioteca `E1_Impressora01.dll` para realizar a comunicação com a impressora por meio de uma interface interativa no terminal.
+O programa possui um sistema de autenticação e um menu interativo que permite configurar a conexão e executar diferentes comandos da impressora.
 
-## Integrantes do grupo
+## Integrantes
 
 | Nome | RA |
 |---|---|
@@ -17,59 +17,76 @@ O sistema utiliza a biblioteca `E1_Impressora01.dll` para realizar a comunicaç�
 ## Tecnologias utilizadas
 
 - Linguagem C
-- Visual Studio Code
-- GCC (MinGW-w64)
-- MSYS2
+- GCC (MinGW / MSYS2)
 - Windows API
-- E1_Impressora01.dll
+- Biblioteca E1_Impressora01.dll
 - Git e GitHub
 
-## Objetivo
+## Funcionalidades
 
-Aplicar os conhecimentos adquiridos durante as aulas de programação no desenvolvimento de um sistema capaz de realizar a comunicação com dispositivos externos, utilizando bibliotecas, funções, estruturas condicionais, estruturas de repetição e manipulação de dados.
-
-O projeto também busca desenvolver habilidades de trabalho em equipe, organização de código e versionamento de software.
+| Opção | Funcionalidade |
+|---|---|
+| 1 | Configurar conexão |
+| 2 | Abrir conexão |
+| 3 | Fechar conexão |
+| 4 | Imprimir texto |
+| 5 | Imprimir QR Code |
+| 6 | Imprimir código de barras |
+| 7 | Imprimir XML SAT |
+| 8 | Imprimir cancelamento SAT |
+| 9 | Abrir gaveta Elgin |
+| 10 | Abrir gaveta |
+| 11 | Emitir sinal sonoro |
+| 12 | Cortar papel |
+| 0 | Sair do programa |
 
 ## Requisitos
 
 - Sistema operacional Windows.
 - Compilador GCC de 64 bits.
-- Biblioteca `E1_Impressora01.dll`.
-- Impressora compatível para testes físicos.
+- Biblioteca E1_Impressora01.dll de 64 bits.
+- Impressora térmica Elgin i8 ou i9.
+- Arquivos XMLSAT.xml e CANC_SAT.xml para os testes de impressão SAT.
 
-## Como compilar e executar
+A DLL e os arquivos XML devem estar na raiz do projeto.
 
-Abra a pasta do projeto no Visual Studio Code e execute o seguinte comando no terminal:
+## Como compilar
 
-```bash
+Abra o terminal na pasta do projeto e execute:
+
+```powershell
 gcc -Wall -Wextra -m64 main.c -o impressora.exe
 ```
 
-Após a compilação, execute:
+## Como executar
 
 ```powershell
 .\impressora.exe
 ```
 
-A biblioteca `E1_Impressora01.dll` deve estar localizada na mesma pasta do executável.
+## Credenciais de acesso
 
-## Acesso ao sistema
+- **Usuário:** admin
+- **Senha:** 1234
 
-Credenciais utilizadas para fins acadêmicos:
+O sistema permite até três tentativas de autenticação.
 
-- Usuário: `admin`
-- Senha: `1234`
+## Configuração padrão da impressora
+
+| Parâmetro | Valor |
+|---|---|
+| Tipo de conexão | 1 (USB) |
+| Modelo | i9 |
+| Porta | USB |
+| Parâmetro adicional | 0 |
 
 ## Status do projeto
 
-Em desenvolvimento.
+- Desenvolvimento concluído.
+- Compilação realizada com sucesso.
 
 ## Finalidade acadêmica
 
-Este projeto possui finalidade exclusivamente educacional, buscando relacionar os conhecimentos teóricos adquiridos em sala de aula com situações práticas de desenvolvimento de software.
+O projeto tem como finalidade aplicar os conhecimentos adquiridos em programação C, utilizando funções, estruturas condicionais, laços de repetição, ponteiros, manipulação de arquivos e integração com bibliotecas externas.
 
----
-
-**UNASP — Centro Universitário Adventista de São Paulo**
-
-Ciência da Computação | 2026
+**UNASP — Ciência da Computação | 2026**
