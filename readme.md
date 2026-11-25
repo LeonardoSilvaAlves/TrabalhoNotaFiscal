@@ -10,9 +10,9 @@ O programa possui um sistema de autenticação e um menu interativo que permite 
 
 | Nome | RA |
 |---|---|
-| Andrew Gabriel de Assis Moreira | 181867 |
+| Andrew Gabriel de Assis Moreira | 260655 |
 | Leonardo da Silva Alves | 194574 |
-| Kawan Ribeiro de Oliveira Fernandes | 078360 |
+| Kawan Ribeiro de Oliveira Fernandes | 078326 |
 
 ## Tecnologias utilizadas
 
